@@ -2,14 +2,14 @@
 
 ## Intent
 
-The primary goal with this project is to start with Test-Driven Development from square one.
+The primary goal with this project is to start with Test-Driven Development from square one. Beginning with assembling all the different pieces of the final game and testing their functionality one bit at a time.
 
 ### Learning Goals
 
-- [ ] Goal 1
-- [ ] Goal
-- [ ] Goal
-- [ ] Goal
+- [ ] Write tests before any piece of functionality is added to the app
+- [ ] Expand tests to cover many of the "paths" through the game
+- [ ] Get jest to work with babel and webpack efficiently, hopefully with ES6 modules
+- [ ]
 
 Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
 
@@ -20,8 +20,6 @@ Provide a short description explaining the what, why, and how of your project. U
 
 ## Table of Contents (Optional)
 
-If your README is long, add a table of contents to make it easy for users to find what they need.
-
 - [Installation](#installation)
 - [Usage](#usage)
 - [Tests](#tests)
@@ -30,11 +28,9 @@ If your README is long, add a table of contents to make it easy for users to fin
 
 ## Installation
 
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+This should be set up on Github Pages, but the code will be accessible from the repo
 
 ## Usage
-
-Provide instructions and examples for use. Include screenshots as needed.
 
 To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
 
