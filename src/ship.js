@@ -1,8 +1,50 @@
-function ship(length) {
+function NewShip(shipLength) {
+  const length = shipLength > 0 ? shipLength : _errorHandler(1);
+
+  let hitCount = 0;
+  let isSunk = false;
+
+  function checkIfSunk() {
+    if (this.hitCount < this.length) {
+      return false;
+    } else {
+      this.isSunk = true;
+      return true;
+    }
+  }
+
+  function hit() {
+    if (this.checkIfSunk() === false) {
+      this.hitCount++;
+    }
+    return this.hitCount;
+  }
+
+  function _errorHandler(key) {
+    switch (key) {
+      case 1:
+        throw new Error('Invalid ship length');
+      default:
+        break;
+    }
+  }
+
   return {
-    length: length,
+    length,
+    hitCount,
+    isSunk,
+    hit,
+    checkIfSunk,
   };
 }
 
-// module.exports = ship;
-export default ship;
+// Make 5 default ships
+
+const shipTypes = {
+  carrier: NewShip(5),
+  patrolBoat: NewShip(2),
+  testShip: NewShip(1),
+};
+
+module.exports = { NewShip, shipTypes };
+// export default NewShip;

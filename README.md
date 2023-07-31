@@ -9,7 +9,10 @@ The primary goal with this project is to start with Test-Driven Development from
 - [ ] Write tests before any piece of functionality is added to the app
 - [ ] Expand tests to cover many of the "paths" through the game
 - [ ] Get jest to work with babel and webpack efficiently, hopefully with ES6 modules
-- [ ]
+
+Interesting observation:
+
+when accessing a property on an object,
 
 Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
 
@@ -76,4 +79,96 @@ If you created an application or package and would like other developers to cont
 
 ## Tests
 
-Go the extra mile and write tests for your application. Then provide examples on how to run them here.
+### Ship
+
+The tests ensure that a ship object is created with valid length, and has valid properties and a hit() function.
+
+- Construct the 5 default ships
+  should it be done in the ship module, or the gameboard module? They are ships, I suppose.
+
+### gameBoard
+
+I want the gameboard to ultimately do a few things:
+
+- Initialize an array of arrays, so there are "coordinates"
+- Place ships on the board
+
+  - place a 1-length ship on a square
+  - Use an example ship, Carrier
+  - allow ships to be placed vertically
+  - allow ships to be placed in 4 orientations
+  - check for length of the ship not overhanging the board edges
+
+- Make the board coordinates "squares" that have some data in them
+  - isShip { boolean, shipName }
+  - isAttacked { miss, hit }
+- track the squares on the boards that have been guessed
+- track hits and misses on the board
+- ***
+
+## Brainstorms
+
+### this.hitCount vs hitCount
+
+INTERESTING observation:
+
+Here's a sample ship factory function:
+
+```js
+function ship(shipLength) {
+  const length = shipLength;
+  let hitCount = 0;
+  let isSunk = false;
+
+  function checkIfSunk() {
+    if (hitCount < length) {
+      return false;
+    } else {
+      this.isSunk = true;
+      return true;
+    }
+  }
+
+  function hit() {
+    if (!checkIfSunk()) {
+      // three options here
+    }
+    return hitCount;
+  }
+
+  return {
+    length,
+    hitCount,
+    isSunk,
+    checkIfSunk,
+    hit,
+  };
+}
+```
+
+when trying to create a function that increments hitCount, essentially a private variable, there are 3 behaviors:
+
+`this.hitCount = this.hitCount + 1;` - works
+`hitCount++;` - DOESN'T work
+`hitCount = hitCount + 1;` - DOESN'T WORK
+
+Why does hitCount++ work without a bound `this`? Clearly we can't assign values to internal properties without invoking `this`. But isn't the increment operator `n++` an assignment? `n += 1` and `n = n + 1` are all equivalent, correct?
+
+COuld I use === strict equality to check this somehow?
+
+Does this mess with mutability in a weird way? Like ++ is a function, almost, and returns the value incremented?
+
+#### UPDATE
+
+So I had it wrong, after a night of sleep. Incrementing a property in the same object requires `this` regardless of the method, ++ or +=
+
+---
+
+Also just found https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Unary_plus, which is FANTASTIC and cool
+Preferred way to coerce a value into a number? Effects on non-numbers, are they the same as calling `Number()` methods? or `toNumber` or explicitly casting the value as a number?
+
+How many ways of casting a value to a number are there?
+
+- -
+- toNumber
+- -

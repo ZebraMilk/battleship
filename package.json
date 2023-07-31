@@ -1,4 +1,13 @@
 {
+  "name": "battleship",
+  "version": "0.0.1",
+  "description": "Battleship game using TDD",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "jest "
+  },
+  "author": "zebramilk",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
@@ -15,10 +24,6 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
   },
-  "name": "battleship",
-  "version": "0.0.1",
-  "description": "Battleship game using TDD",
-  "main": "webpack.config.js",
   "dependencies": {
     "acorn": "^8.10.0",
     "acorn-import-assertions": "^1.9.0",
@@ -82,10 +87,5 @@
     "watchpack": "^2.4.0",
     "webpack-sources": "^3.2.3",
     "yallist": "^4.0.0"
-  },
-  "scripts": {
-    "test": "jest "
-  },
-  "author": "zebramilk",
-  "license": "MIT"
+  }
 }
