@@ -98,13 +98,18 @@ I want the gameboard to ultimately do a few things:
   - allow ships to be placed vertically
   - allow ships to be placed in 4 orientations
   - check for length of the ship not overhanging the board edges
+  - place multiple ships correctly
+  - only allow one instance of each ship on the board
+  - Prevent ships from overlapping
+    - need to only populate the squares if all of them are clear
 
 - Make the board coordinates "squares" that have some data in them
   - isShip { boolean, shipName }
   - isAttacked { miss, hit }
 - track the squares on the boards that have been guessed
 - track hits and misses on the board
-- ***
+
+-
 
 ## Brainstorms
 
