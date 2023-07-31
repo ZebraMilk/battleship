@@ -22,16 +22,48 @@ function GameBoard() {
       board[i][j] = NewSquare(i, j);
     }
   }
-  function placeShip(xcoord, ycoord, shipType = 'testShip') {
+  function placeShip(xcoord, ycoord, shipType = 'testShip', orient = 'N') {
     if (shipTypes[`${shipType}`] === undefined) {
-      return _errorHandler(1);
+      return _errorHandler(invalidShip);
     }
     // get the actual ship using shipType
     const currentShip = shipTypes[`${shipType}`];
-    // board[xcoord][ycoord].hasShip = true;
-    // make the ship lie vertically from origin
-    for (let i = 0; i < currentShip.length; i++) {
-      board[xcoord][ycoord + i].hasShip = true;
+    switch (orient) {
+      case 'N':
+        // check if the ship would go off the board
+        if (ycoord + currentShip.length > BOARDSIZE) {
+          return _errorHandler(invalidStartingSquare);
+        }
+        // make the ship lie N from origin
+        for (let i = 0; i < currentShip.length; i++) {
+          board[xcoord][ycoord + i].hasShip = true;
+        }
+        break;
+
+      case 'S':
+        if (ycoord - currentShip.length < 0) {
+          return _errorHandler(invalidStartingSquare);
+        }
+        for (let i = 0; i < currentShip.length; i++) {
+          board[xcoord][ycoord - i].hasShip = true;
+        }
+        break;
+      case 'E':
+        if (xcoord + currentShip.length > BOARDSIZE) {
+          return _errorHandler(invalidStartingSquare);
+        }
+        for (let i = 0; i < currentShip.length; i++) {
+          board[xcoord + i][ycoord].hasShip = true;
+        }
+      case 'W':
+        if (xcoord + currentShip.length < 0) {
+          return _errorHandler(invalidStartingSquare);
+        }
+        for (let i = 0; i < currentShip.length; i++) {
+          board[xcoord - i][ycoord].hasShip = true;
+        }
+      default:
+        break;
     }
     return currentShip;
   }
@@ -43,8 +75,10 @@ function GameBoard() {
 
 function _errorHandler(key) {
   switch (key) {
-    case 1:
+    case invalidShip:
       throw new Error('Not a valid ship type');
+    case invalidStartingSquare:
+      throw new Error('Cannot place ship here');
     default:
       break;
   }
