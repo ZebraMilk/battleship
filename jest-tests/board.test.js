@@ -38,7 +38,7 @@ describe('The ship-aware gameBoard', () => {
     expect(testBoard.board[0][4].hasShip).toBe(true);
   });
 
-  it('Places a 2-lenth ship on squares vertically', () => {
+  it('Places a 2-length ship on squares vertically', () => {
     const testBoard = board();
     testBoard.placeShip(0, 0, 'patrolBoat', 'N');
     expect(testBoard.board[0][5].hasShip).toBe(false);
@@ -201,14 +201,124 @@ describe('The attack-aware gameBoard', () => {
     testBoard.receiveAttack(3, 1);
     testBoard.receiveAttack(4, 1);
     testBoard.receiveAttack(5, 1);
-    expect(testBoard.sunkShips).toContain(testBoard.shipTypes['carrier']);
+
+    expect(testBoard.sunkShips).not.toBe(undefined);
+    expect(testBoard.sunkShips[0]).toContain(testBoard.placedShips['carrier']);
+  });
+
+  it('Can tell when two ships are sunk', () => {
+    const testBoard = board();
+    testBoard.placeShip(1, 1, 'carrier', 'E');
+    expect(testBoard.shipTypes['carrier'].isSunk).toEqual(false);
+    testBoard.receiveAttack(1, 1);
+    testBoard.receiveAttack(2, 1);
+    testBoard.receiveAttack(3, 1);
+    testBoard.receiveAttack(4, 1);
+    testBoard.receiveAttack(5, 1);
+    testBoard.placeShip(5, 2, 'battleship', 'W');
+    expect(testBoard.shipTypes['battleship'].isSunk).toEqual(false);
+    testBoard.receiveAttack(2, 2);
+    testBoard.receiveAttack(3, 2);
+    testBoard.receiveAttack(4, 2);
+    testBoard.receiveAttack(5, 2);
+    expect(testBoard.shipTypes['carrier'].isSunk).toEqual(true);
+    expect(testBoard.shipTypes['battleship'].isSunk).toEqual(true);
+    expect(testBoard.sunkShips).not.toBe(undefined);
+    expect(testBoard.sunkShips[0]).toContain(testBoard.placedShips['carrier']);
+    expect(testBoard.sunkShips[1]).toContain(
+      testBoard.placedShips['battleship']
+    );
+  });
+
+  it('Can track if all the ships are sunk', () => {
+    const testBoard = board();
+
+    testBoard.placeShip(1, 1, 'carrier', 'E');
+    testBoard.placeShip(1, 2, 'battleship', 'E');
+    testBoard.placeShip(1, 3, 'submarine', 'E');
+    testBoard.placeShip(1, 4, 'destroyer', 'E');
+    testBoard.placeShip(1, 5, 'patrolBoat', 'E');
+    testBoard.receiveAttack(1, 1);
+    testBoard.receiveAttack(2, 1);
+    testBoard.receiveAttack(3, 1);
+    testBoard.receiveAttack(4, 1);
+    testBoard.receiveAttack(5, 1);
+    testBoard.receiveAttack(1, 2);
+    testBoard.receiveAttack(2, 2);
+    testBoard.receiveAttack(3, 2);
+    testBoard.receiveAttack(4, 2);
+    testBoard.receiveAttack(1, 3);
+    testBoard.receiveAttack(2, 3);
+    testBoard.receiveAttack(3, 3);
+    testBoard.receiveAttack(1, 4);
+    testBoard.receiveAttack(2, 4);
+    testBoard.receiveAttack(3, 4);
+    testBoard.receiveAttack(1, 5);
+    testBoard.receiveAttack(2, 5);
+    expect(testBoard.allShipsSunk()).toBe(true);
   });
 });
 
 describe('The squares on a populated board', () => {
-  it('Keeps track of ship placement correctly', () => {});
+  it('Keeps track of ship placement correctly', () => {
+    const testBoard = board();
+    testBoard.placeShip(1, 1, 'carrier', 'E');
+    testBoard.placeShip(1, 2, 'battleship', 'E');
+    testBoard.placeShip(1, 3, 'submarine', 'E');
+    testBoard.placeShip(1, 4, 'destroyer', 'E');
+    testBoard.placeShip(1, 5, 'patrolBoat', 'E');
+    expect(testBoard.board[1][1].ship).toEqual(testBoard.shipTypes['carrier']);
+    expect(testBoard.board[5][1].ship).toEqual(testBoard.shipTypes['carrier']);
+    expect(testBoard.board[5][1].ship).toEqual(testBoard.placedShips[0]);
+    expect(testBoard.board[1][2].ship).toEqual(
+      testBoard.shipTypes['battleship']
+    );
+    expect(testBoard.board[4][2].ship).toEqual(
+      testBoard.shipTypes['battleship']
+    );
+    expect(testBoard.board[1][3].ship).toEqual(
+      testBoard.shipTypes['submarine']
+    );
+    expect(testBoard.board[3][3].ship).toEqual(
+      testBoard.shipTypes['submarine']
+    );
+    expect(testBoard.board[1][4].ship).toEqual(
+      testBoard.shipTypes['destroyer']
+    );
+    expect(testBoard.board[3][4].ship).toEqual(
+      testBoard.shipTypes['destroyer']
+    );
+    expect(testBoard.board[1][5].ship).toEqual(
+      testBoard.shipTypes['patrolBoat']
+    );
+    expect(testBoard.board[2][5].ship).toEqual(
+      testBoard.shipTypes['patrolBoat']
+    );
+  });
 
   it('Tracks hits and misses correctly', () => {
     // Be careful here to not toggle the square's state if an attack is attempted, like it can't switch from hit to miss or false..
+    const testBoard = board();
+    testBoard.placeShip(1, 1, 'carrier', 'E');
+    testBoard.placeShip(1, 2, 'battleship', 'E');
+    testBoard.placeShip(1, 3, 'submarine', 'E');
+    testBoard.placeShip(1, 4, 'destroyer', 'E');
+    testBoard.placeShip(1, 5, 'patrolBoat', 'E');
+    testBoard.receiveAttack(2, 1); // hit
+    testBoard.receiveAttack(3, 1); // hit
+    testBoard.receiveAttack(2, 2); // hit
+    testBoard.receiveAttack(3, 2); // hit
+    testBoard.receiveAttack(1, 3); // hit
+    testBoard.receiveAttack(3, 3); // hit
+    testBoard.receiveAttack(7, 1); // miss
+    testBoard.receiveAttack(6, 2); // miss
+    testBoard.receiveAttack(0, 1); // miss
+    testBoard.receiveAttack(2, 7); // miss
+    testBoard.receiveAttack(3, 7); // miss
+    testBoard.receiveAttack(1, 7); // miss
+    testBoard.receiveAttack(4, 8); // miss
+    expect(testBoard.misses.length).toBe(7);
+    expect(testBoard.board[2][1].hasAttack).toBe('hit');
+    expect(testBoard.board[4][8].hasAttack).toBe('miss');
   });
 });

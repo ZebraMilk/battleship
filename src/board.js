@@ -30,12 +30,12 @@ function GameBoard() {
     battleship: ship(4, 'battleship'),
     submarine: ship(3, 'submarine'),
     destroyer: ship(3, 'destroyer'),
-    patrolBoat: ship(2, 'patrolBoar'),
-    testShip: ship(1, 'testShip'),
+    patrolBoat: ship(2, 'patrolBoat'),
   };
 
   const misses = [];
   const placedShips = [];
+  const sunkShips = [];
 
   function placeShip(xcoord, ycoord, shipName, orient) {
     if (shipTypes[`${shipName}`] === undefined) {
@@ -109,11 +109,23 @@ function GameBoard() {
       const currentShip = target.ship;
       currentShip.hit();
       target.hasAttack = 'hit';
+      if (currentShip.isSunk === true) {
+        sunkShips.push(currentShip);
+        return 'sunk';
+      }
       return 'hit';
     } else if (target.hasShip === false) {
       misses.push([xcoord, ycoord]);
       target.hasAttack = 'miss';
       return 'miss';
+    }
+  }
+
+  function allShipsSunk() {
+    if (sunkShips.length === placedShips.length) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -167,6 +179,8 @@ function GameBoard() {
     misses,
     placedShips,
     shipTypes,
+    sunkShips,
+    allShipsSunk,
   };
 }
 

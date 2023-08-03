@@ -18,6 +18,7 @@ function NewShip(shipLength, shipName) {
     if (this.checkIfSunk() === false) {
       this.hitCount++;
     }
+    this.checkIfSunk();
     return this.hitCount;
   }
 
@@ -47,7 +48,7 @@ function NewShip(shipLength, shipName) {
 //   battleship: NewShip(4, 'battleship'),
 //   submarine: NewShip(3, 'submarine'),
 //   destroyer: NewShip(3, 'destroyer'),
-//   patrolBoat: NewShip(2, 'patrolBoar'),
+//   patrolBoat: NewShip(2, 'patrolBoat'),
 //   testShip: NewShip(1, 'testShip'),
 // };
 
