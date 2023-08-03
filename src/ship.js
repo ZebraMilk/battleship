@@ -1,4 +1,5 @@
-function NewShip(shipLength) {
+function NewShip(shipLength, shipName) {
+  const name = shipName;
   const length = shipLength > 0 ? shipLength : _errorHandler(1);
 
   let hitCount = 0;
@@ -30,6 +31,7 @@ function NewShip(shipLength) {
   }
 
   return {
+    name,
     length,
     hitCount,
     isSunk,
@@ -40,11 +42,14 @@ function NewShip(shipLength) {
 
 // Make 5 default ships
 
-const shipTypes = {
-  carrier: NewShip(5),
-  patrolBoat: NewShip(2),
-  testShip: NewShip(1),
-};
+// const shipTypes = {
+//   carrier: NewShip(5, 'carrier'),
+//   battleship: NewShip(4, 'battleship'),
+//   submarine: NewShip(3, 'submarine'),
+//   destroyer: NewShip(3, 'destroyer'),
+//   patrolBoat: NewShip(2, 'patrolBoar'),
+//   testShip: NewShip(1, 'testShip'),
+// };
 
-module.exports = { NewShip, shipTypes };
+module.exports = NewShip;
 // export default NewShip;

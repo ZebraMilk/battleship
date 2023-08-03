@@ -1,16 +1,18 @@
 // import ship from './ship';
 const ship = require('../src/ship');
 
-const shipTypes = ship.shipTypes;
-
 const BOARDSIZE = 10;
 
 function _NewSquare(x, y) {
   const coords = { x, y };
   let hasShip = false;
+  let hasAttack = false;
+  let ship = undefined;
   return {
     coords,
     hasShip,
+    hasAttack,
+    ship,
   };
 }
 
@@ -23,15 +25,27 @@ function GameBoard() {
     }
   }
 
-  function placeShip(xcoord, ycoord, shipType, orient) {
-    if (shipTypes[`${shipType}`] === undefined) {
+  const shipTypes = {
+    carrier: ship(5, 'carrier'),
+    battleship: ship(4, 'battleship'),
+    submarine: ship(3, 'submarine'),
+    destroyer: ship(3, 'destroyer'),
+    patrolBoat: ship(2, 'patrolBoar'),
+    testShip: ship(1, 'testShip'),
+  };
+
+  const misses = [];
+  const placedShips = [];
+
+  function placeShip(xcoord, ycoord, shipName, orient) {
+    if (shipTypes[`${shipName}`] === undefined) {
       return _errorHandler(invalidShip);
     }
     // get the actual ship using shipType
-    const currentShip = shipTypes[`${shipType}`];
+    const currentShip = shipTypes[`${shipName}`];
 
     // check the potential placement of ship to see if any squares are already occupied
-    if (_checkIfOccupied(xcoord, ycoord, shipType, orient) === true) {
+    if (_checkShipOverlap(xcoord, ycoord, shipName, orient) === true) {
       _errorHandler(spaceOccupied);
     }
 
@@ -44,6 +58,7 @@ function GameBoard() {
         // make the ship lie N from origin
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord][ycoord + i].hasShip = true;
+          board[xcoord][ycoord + i].ship = currentShip;
         }
         break;
 
@@ -53,6 +68,7 @@ function GameBoard() {
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord][ycoord - i].hasShip = true;
+          board[xcoord][ycoord - i].ship = currentShip;
         }
         break;
 
@@ -62,6 +78,7 @@ function GameBoard() {
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord + i][ycoord].hasShip = true;
+          board[xcoord + i][ycoord].ship = currentShip;
         }
         break;
 
@@ -71,26 +88,47 @@ function GameBoard() {
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord - i][ycoord].hasShip = true;
+          board[xcoord - i][ycoord].ship = currentShip;
         }
         break;
 
       default:
         return _errorHandler();
     }
-    return currentShip;
+
+    placedShips.push(currentShip);
+    return;
+  }
+
+  function receiveAttack(xcoord, ycoord) {
+    let target = board[xcoord][ycoord];
+    if (target.hasAttack !== false) {
+      return;
+    }
+    if (target.hasShip === true) {
+      const currentShip = target.ship;
+      currentShip.hit();
+      target.hasAttack = 'hit';
+      return 'hit';
+    } else if (target.hasShip === false) {
+      misses.push([xcoord, ycoord]);
+      target.hasAttack = 'miss';
+      return 'miss';
+    }
   }
 
   // Do this recursively?
-  function _checkIfOccupied(xcoord, ycoord, shipType, orient) {
-    const currentShip = ship.shipTypes[`${shipType}`];
+  function _checkShipOverlap(xcoord, ycoord, shipType, orient) {
+    const currentShip = shipTypes[`${shipType}`];
     // check the origin square
     if (board[xcoord][ycoord].hasShip) {
       return true;
     }
+    // check all squares of a ship depending on length and orientation
     switch (orient) {
       case 'N':
         for (let i = 0; i < currentShip.length; i++) {
-          if (board[xcoord][ycoord + i].hasShip === true) {
+          if (board[xcoord][ycoord + i].hasShip !== false) {
             return true;
           }
         }
@@ -98,7 +136,7 @@ function GameBoard() {
 
       case 'S':
         for (let i = 0; i < currentShip.length; i++) {
-          if (board[xcoord][ycoord - i].hasShip === true) {
+          if (board[xcoord][ycoord - i].hasShip !== false) {
             return true;
           }
         }
@@ -106,7 +144,7 @@ function GameBoard() {
 
       case 'E':
         for (let i = 0; i < currentShip.length; i++) {
-          if (board[xcoord + i][ycoord].hasShip === true) {
+          if (board[xcoord + i][ycoord].hasShip !== false) {
             return true;
           }
         }
@@ -114,7 +152,7 @@ function GameBoard() {
 
       case 'W':
         for (let i = 0; i < currentShip.length; i++) {
-          if (board[xcoord - i][ycoord].hasShip === true) {
+          if (board[xcoord - i][ycoord].hasShip !== false) {
             return true;
           }
         }
@@ -125,6 +163,10 @@ function GameBoard() {
   return {
     board,
     placeShip,
+    receiveAttack,
+    misses,
+    placedShips,
+    shipTypes,
   };
 }
 

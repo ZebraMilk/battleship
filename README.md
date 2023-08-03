@@ -104,14 +104,91 @@ I want the gameboard to ultimately do a few things:
     - need to only populate the squares if all of them are clear
 
 - Make the board coordinates "squares" that have some data in them
-  - isShip { boolean, shipName }
-  - isAttacked { miss, hit }
+  - hasShip: shipName or false?
+  - hasAttack { miss, hit, false }
 - track the squares on the boards that have been guessed
 - track hits and misses on the board
 
--
+board has a list of placedShips?
+so the board now has ships attached to it as properties?
+how do I persist the ship objects on the gameboard?
+when a ship is placed
+the coords on the board that ship occupies are changed
+there is a ship object that tracks hits and such, but where does that ship live? Does it still live in the ships module? Or do I now need it in the gameboard module?
+Gamebaords should be able to report whether or not all their ships have been sunk.
+
+This sort of implies that a gameboard "has" ships on it... So how di I reflect that?
+
+Options:
+
+- give the gameboard a list of placedShips, objects with names
+- when a ship is placed, update the "hasShip" property to be the "name" of the placed ship?
+  - this makes it a bit trickier to track if ships are sunk.
+
+I want placedShips to look like:
+placedShips {
+carrier: {
+...
+},
+battleship: {
+...
+},
+// etc...
+}
+
+So I can access each ship object by getting placedShips.${shipName} and get the ship object
+
+I think I need to reformat some things to keep track of how ships are placed and where they are.
+
+Placing a ship on the board should add it to the placedShips object with its name as the key.
+all other references to this ship should go to that list
+
+basically a bunch of places in the code are going to be using/accessing the ship objects, those need to be stored when the gameBoard is created.
+
+1. make the board
+
+   1. could create ship objects and just have them "around"
+
+2. as each ship object is placed, it is created and stored in the placedShips object under its name as the key
+3.
+
+Right now, I have the ship factory in another module, but when it "gives" the gameboard the shipTypes object, are those properties sort of... frozen? Like does it invoke a new ship every time it's called?
+How can I test for this?
+
+---
+
+### Ideas after a Tuesday
+
+I think I would like to look at this project as a series of interfaces.
+
+The board interface is going to have the most stuff, because it's where most of the interactions live.
+
+So not even considering the UI, I have:
+
+- Ship factory function that produces ships of a given length
+- When a gameboard is initialized, make the 5 ships to be placed
+  - store those ships in the staging area
+  - When a ship is placed, add it, the entire ship object, to the placedShips array/object
+  - Every time I need to update something on the ship itself, call out to placedShips
+  - Treat placedShips like a mini database, update their stored hitCounts and values
+  - when a ship is placed
+    - update each of the squares to have a ship, and have the same object
+      - does this work? Does assigning a "reference" to the placedShip.name let me update that placedShip?
+      - I could just have the square hold the "key" to the placedShip
+      - then when needing to update or pass a hit() call, could go into the "database"
+
+### Scheme
+
+Need to really figure out the pieces and how they talk to one another.
+Each time I come up with a different idea about how the eventual app is going to look, I need to figure out the actual steps and tests to get there
 
 ## Brainstorms
+
+How do I want the board and ship objects to reflect one another?
+
+- How to track which ship is located on which squares?
+- How to store the hit/miss value in each board square?
+- How to update
 
 ### this.hitCount vs hitCount
 

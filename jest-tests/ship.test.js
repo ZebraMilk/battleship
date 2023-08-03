@@ -1,6 +1,6 @@
 // import ship from '../src/ship';
 const shipStuff = require('../src/ship');
-const ship = shipStuff.NewShip;
+const ship = shipStuff;
 
 it('Has a length', () => {
   expect(ship(3).length).toBe(3);
