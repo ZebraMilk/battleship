@@ -110,7 +110,7 @@ function GameBoard() {
       currentShip.hit();
       target.hasAttack = 'hit';
       if (currentShip.isSunk === true) {
-        sunkShips.push(currentShip);
+        sunkShips.push(currentShip.name);
         return 'sunk';
       }
       return 'hit';
@@ -204,4 +204,4 @@ function _errorHandler(key) {
   }
 }
 
-module.exports = GameBoard;
+module.exports = { GameBoard, BOARDSIZE };

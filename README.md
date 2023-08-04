@@ -177,6 +177,39 @@ So not even considering the UI, I have:
       - I could just have the square hold the "key" to the placedShip
       - then when needing to update or pass a hit() call, could go into the "database"
 
+### Player
+
+- needs to take an attack coordinate pair and pass it to it gameBoard object
+- Make an attack and pass it to the message to the flow controller
+- compose an attack object to pass around
+- a player makes a guess, passes that guess to the game loop, which calls the enemy's receiveAttack function.
+- has full access to their own gameBoard
+
+  - where its own ships are
+  - how many ships are sunk
+  - which attacks have missed on its board
+    (but none of this informs anything...)
+
+- Player also has a list of attacks made
+- Could make the makeAttack async
+- could also have the receiveAttack return a promise
+
+This would make sense, because it might take some time to complete the loops...
+
+### Game Loop
+
+- Players only get to know the result of their actions, not much else
+- Players send messages to the loop controller
+- Computer player needs to make valid choices on its turn by looking at the board, its guesses
+
+### State
+
+What information do the players have access to?
+
+- their own gameBoard
+- their attacks
+  - the result of each of those attacks
+
 ### Scheme
 
 Need to really figure out the pieces and how they talk to one another.

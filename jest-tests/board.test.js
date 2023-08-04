@@ -1,4 +1,5 @@
-const board = require('../src/board');
+const boardStuff = require('../src/board');
+const board = boardStuff.GameBoard;
 // import board from '../src/board';
 
 describe('The gameboard', () => {
@@ -203,7 +204,7 @@ describe('The attack-aware gameBoard', () => {
     testBoard.receiveAttack(5, 1);
 
     expect(testBoard.sunkShips).not.toBe(undefined);
-    expect(testBoard.sunkShips[0]).toContain(testBoard.placedShips['carrier']);
+    expect(testBoard.sunkShips).toContain('carrier');
   });
 
   it('Can tell when two ships are sunk', () => {
@@ -224,10 +225,8 @@ describe('The attack-aware gameBoard', () => {
     expect(testBoard.shipTypes['carrier'].isSunk).toEqual(true);
     expect(testBoard.shipTypes['battleship'].isSunk).toEqual(true);
     expect(testBoard.sunkShips).not.toBe(undefined);
-    expect(testBoard.sunkShips[0]).toContain(testBoard.placedShips['carrier']);
-    expect(testBoard.sunkShips[1]).toContain(
-      testBoard.placedShips['battleship']
-    );
+    expect(testBoard.sunkShips).toContain('carrier');
+    expect(testBoard.sunkShips).toContain('battleship');
   });
 
   it('Can track if all the ships are sunk', () => {

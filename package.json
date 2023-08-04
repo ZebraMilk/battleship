@@ -4,7 +4,8 @@
   "description": "Battleship game using TDD",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "jest "
+    "test": "jest",
+    "watch": "jest --watch *.js"
   },
   "author": "zebramilk",
   "license": "MIT",
