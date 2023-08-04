@@ -201,14 +201,22 @@ This would make sense, because it might take some time to complete the loops...
 - Players only get to know the result of their actions, not much else
 - Players send messages to the loop controller
 - Computer player needs to make valid choices on its turn by looking at the board, its guesses
+- tracks the current turn
+- receives makeAttack messages from the player
+- resolves that promise by passing the coordinates to the enemy's board, calling receiveAttack;
+- ends the current player's turn
 
-### State
+#### State
 
 What information do the players have access to?
 
 - their own gameBoard
 - their attacks
   - the result of each of those attacks
+
+### Mocking
+
+So jest can set up a function with `const mockFunction = jest.fn(someValue => doThingsToValue)`
 
 ### Scheme
 
