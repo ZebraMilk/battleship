@@ -24,16 +24,15 @@ computerPlayer.makeChoice = function () {
   const attempt = this.randomAttack();
   if (attempt.valid === true) {
     return { x: attempt.x, y: attempt.y };
-  } else {
-    // try again with incremented values?
-    // basic search, just increment the y value row by row?
-    let ogx = attempt.x;
-    let ogy = attempt.y;
-    for (let i = ogx; i % 10 !== ogx; i++) {
-      for (let j = ojy; j % 10 !== ogy; j++) {
-        if (this.canAttack() === true) {
-          return { x: i, y: j, valid: true };
-        }
+  }
+  // try again with incremented values?
+  // basic search, just increment the y value row by row?
+  let ogx = attempt.x;
+  let ogy = attempt.y;
+  for (let i = ogx; i % 10 !== ogx; i++) {
+    for (let j = ojy; j % 10 !== ogy; j++) {
+      if (this.canAttack() === true) {
+        return { x: i, y: j };
       }
     }
   }
