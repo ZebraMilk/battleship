@@ -41,16 +41,4 @@ function NewShip(shipLength, shipName) {
   };
 }
 
-// Make 5 default ships
-
-// const shipTypes = {
-//   carrier: NewShip(5, 'carrier'),
-//   battleship: NewShip(4, 'battleship'),
-//   submarine: NewShip(3, 'submarine'),
-//   destroyer: NewShip(3, 'destroyer'),
-//   patrolBoat: NewShip(2, 'patrolBoat'),
-//   testShip: NewShip(1, 'testShip'),
-// };
-
 module.exports = NewShip;
-// export default NewShip;

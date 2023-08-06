@@ -4,27 +4,36 @@ const NewBoard = boardStuff.GameBoard;
 
 function Player() {
   const playerBoard = NewBoard();
+  const allShipsSunk = playerBoard.allShipsSunk;
 
-  const attacks = Array(BOARDSIZE);
+  const attackResults = Array(BOARDSIZE);
   for (let i = 0; i < BOARDSIZE; i++) {
-    attacks[i] = Array(BOARDSIZE);
+    attackResults[i] = Array(BOARDSIZE);
   }
 
   function takeAttack(x, y) {
     return playerBoard.receiveAttack(x, y);
   }
 
-  function makeAttack(x, y) {
-    // this is actually going to be the return value
-    // from the receiveAttack function of the enemy board?
-    attacks[x][y] = 'Attack made';
+  function updateAttackResults(x, y, result) {
+    return (attackResults[x][y] = result);
+  }
+
+  function canAttack(x, y) {
+    if (this.attackResults[x][y] === undefined) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   return {
     playerBoard,
-    attacks,
+    attackResults,
+    updateAttackResults,
+    canAttack,
     takeAttack,
-    makeAttack,
+    allShipsSunk,
   };
 }
 

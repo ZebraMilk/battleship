@@ -202,7 +202,10 @@ This would make sense, because it might take some time to complete the loops...
 - Players send messages to the loop controller
 - Computer player needs to make valid choices on its turn by looking at the board, its guesses
 - tracks the current turn
-- receives makeAttack messages from the player
+- asks player to make an attack
+  - gets a set of coordinates
+  - if human, get those coords from input (prompt, mouse click, whatever)
+  - if computer turn, get those coords from the appropriate attack-generating method
 - resolves that promise by passing the coordinates to the enemy's board, calling receiveAttack;
 - ends the current player's turn
 
@@ -225,11 +228,7 @@ Each time I come up with a different idea about how the eventual app is going to
 
 ## Brainstorms
 
-How do I want the board and ship objects to reflect one another?
-
-- How to track which ship is located on which squares?
-- How to store the hit/miss value in each board square?
-- How to update
+After some thinking, steps 3 and 4 are a bit misleading. I cannot have a function in the player object to actually make an attack, interact with the enemy board. Those methods have to be called by the game module. So the game module passes methods around.
 
 ### this.hitCount vs hitCount
 

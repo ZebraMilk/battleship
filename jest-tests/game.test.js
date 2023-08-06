@@ -11,7 +11,7 @@ it('Starts a game with two players', () => {
   expect(testGame.playerTwo).not.toBe(undefined);
 });
 
-it('Receives an attack coordinate from a player', () => {
+it('Requests an attack coordinate from a player', () => {
   const testGame = game();
   // set up a mock here? for those promise resolutions?
   // what needs mocking?
@@ -19,6 +19,15 @@ it('Receives an attack coordinate from a player', () => {
   // This gets harder to test as a unit
   // sighting along the edge of the space capsule...
   // How do I do that when the space capsule bounces around other space capsules?
+});
 
-  expect(testGame);
+it('Updates and tracks the current player', () => {
+  const testGame = game();
+  expect(testGame.currentPlayer).toEqual(testGame.playerOne);
+  testGame.switchTurns();
+  expect(testGame.currentPlayer).toEqual(testGame.playerTwo);
+  testGame.switchTurns();
+  testGame.switchTurns();
+  testGame.switchTurns();
+  expect(testGame.currentPlayer).toEqual(testGame.playerOne);
 });

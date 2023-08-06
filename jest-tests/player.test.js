@@ -14,10 +14,10 @@ it('Can receive attack', () => {
 
 it('Can log an attempted attack', () => {
   const testPlayer = player();
-  testPlayer.makeAttack(1, 1);
-  expect(testPlayer.attacks[1][1]).toBe('Attack made');
+  testPlayer.updateAttackResults(1, 1, 'Attack made');
+  expect(testPlayer.attackResults[1][1]).toBe('Attack made');
 });
 
 it('Records whether an attempted attack was a hit or miss', () => {
-  // Need to flesh out the gameloop first
+  // Need to flesh out the gameloop first?
 });

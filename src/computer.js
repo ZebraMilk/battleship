@@ -10,22 +10,33 @@ const newPlayer = require('./player');
 
 const computerPlayer = newPlayer();
 
-computerPlayer.attack = (x, y) => {
-  return 'Attack made';
-};
-
-computerPlayer.checkAttack = function (x, y) {
-  if (this.attacks[x][y] !== undefined) {
-    return 'Already attacked this square';
+computerPlayer.randomAttack = function () {
+  const x = Math.floor((Math.random() * 100000) % 10);
+  const y = Math.floor((Math.random() * 100000) % 10);
+  if (this.canAttack(x, y) === true) {
+    return { x, y, valid: true };
   } else {
-    return attack(x, y);
+    return { x, y, valid: false };
   }
 };
 
-computerPlayer.randomAttack = function () {
-  const x = (Math.random() * 100000) % 10;
-  const y = (Math.random() * 100000) % 10;
-  return { x, y };
+computerPlayer.makeChoice = function () {
+  const attempt = this.randomAttack();
+  if (attempt.valid === true) {
+    return { x: attempt.x, y: attempt.y };
+  } else {
+    // try again with incremented values?
+    // basic search, just increment the y value row by row?
+    let ogx = attempt.x;
+    let ogy = attempt.y;
+    for (let i = ogx; i % 10 !== ogx; i++) {
+      for (let j = ojy; j % 10 !== ogy; j++) {
+        if (this.canAttack() === true) {
+          return { x: i, y: j, valid: true };
+        }
+      }
+    }
+  }
 };
 
 module.exports = computerPlayer;

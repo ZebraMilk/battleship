@@ -1,4 +1,3 @@
-// import ship from './ship';
 const ship = require('../src/ship');
 
 const BOARDSIZE = 10;
