@@ -12,25 +12,24 @@ it('Chooses a coordinate at random between 0 and 9', () => {
   expect(computer.randomAttack().y).toBeGreaterThanOrEqual(0);
 });
 
-it('Select only attack choices that have not been guessed yet', () => {
+it('Only makes attack choices that have not been guessed yet', () => {
   // How to test this? makeChoice should return x, y coords.
   // Need to check if it's valid?
   // Compare the result against the public attackResults
   populateResultsExceptOneOne(computer.attackResults);
-  computer.updateAttackResults(1, 1, undefined);
   const attempt = computer.makeChoice();
-  const x = attempt.x;
-  const y = attempt.y;
-  expect(computer.attackResults[x][y]).toBe(undefined);
-  expect(x).toBe(1);
-  expect(y).toBe(1);
-});
+  expect(attempt.x).toBe(1);
+  expect(attempt.y).toBe(1);
+  expect(computer.attackResults[1][1]).toEqual(undefined);
+  expect(computer.attackResults[2][1]).toBe('miss');
+  expect(computer.attackResults[2][2]).toBe('miss');
 
-function populateResultsExceptOneOne(resultsArr) {
-  for (let i = 0; i < resultsArr.length; i++) {
-    for (let j = 0; j < resultsArr.length; j++) {
-      resultsArr[i][j] = 'miss';
+  function populateResultsExceptOneOne(resultsArr) {
+    for (let i = 0; i < resultsArr.length; i++) {
+      for (let j = 0; j < resultsArr.length; j++) {
+        resultsArr[i][j] = 'miss';
+      }
     }
+    resultsArr[1][1] = undefined;
   }
-  resultsArr[1][1] = undefined;
-}
+});

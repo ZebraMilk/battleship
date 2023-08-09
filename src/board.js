@@ -38,21 +38,21 @@ function GameBoard() {
 
   function placeShip(xcoord, ycoord, shipName, orient) {
     if (shipTypes[`${shipName}`] === undefined) {
-      return _errorHandler(invalidShip);
+      return _errorHandler('invalidShip');
     }
     // get the actual ship using shipType
     const currentShip = shipTypes[`${shipName}`];
 
     // check the potential placement of ship to see if any squares are already occupied
     if (_checkShipOverlap(xcoord, ycoord, shipName, orient) === true) {
-      _errorHandler(spaceOccupied);
+      _errorHandler('spaceOccupied');
     }
 
     switch (orient) {
       case 'N':
         // check if the ship would go off the board
         if (ycoord + currentShip.length > BOARDSIZE) {
-          return _errorHandler(invalidStartingSquare);
+          return _errorHandler('invalidStartingSquare');
         }
         // make the ship lie N from origin
         for (let i = 0; i < currentShip.length; i++) {
@@ -63,7 +63,7 @@ function GameBoard() {
 
       case 'S':
         if (ycoord - currentShip.length < 0) {
-          return _errorHandler(invalidStartingSquare);
+          return _errorHandler('invalidStartingSquare');
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord][ycoord - i].hasShip = true;
@@ -73,7 +73,7 @@ function GameBoard() {
 
       case 'E':
         if (xcoord + currentShip.length > BOARDSIZE) {
-          return _errorHandler(invalidStartingSquare);
+          return _errorHandler('invalidStartingSquare');
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord + i][ycoord].hasShip = true;
@@ -83,7 +83,7 @@ function GameBoard() {
 
       case 'W':
         if (xcoord + currentShip.length < 0) {
-          return _errorHandler(invalidStartingSquare);
+          return _errorHandler('invalidStartingSquare');
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord - i][ycoord].hasShip = true;
@@ -185,17 +185,22 @@ function GameBoard() {
 
 function _errorHandler(key) {
   switch (key) {
-    case invalidShip:
+    case 'invalidShip':
       throw new Error('Not a valid ship type');
 
-    case invalidStartingSquare:
+    case 'invalidStartingSquare':
       throw new Error(
         'Cannot place here, placement would overhang the game board'
       );
 
-    case spaceOccupied:
+    case 'spaceOccupied':
       throw new Error(
         'Cannot place here, ship would overlap an existing placement'
+      );
+
+    case 'targetAlreadyAttacked':
+      throw new Error(
+        'This square already has an attack registered.\n Player should not be able to attack this square, check the flow.'
       );
 
     default:
