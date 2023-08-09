@@ -209,6 +209,31 @@ This would make sense, because it might take some time to complete the loops...
 - resolves that promise by passing the coordinates to the enemy's board, calling receiveAttack;
 - ends the current player's turn
 
+---
+
+UPDATE 08/08/2023:
+
+I think this bit of the code, the game controller, needs to do a few things:
+
+- track current turn
+
+- play a round
+
+  - play a turn
+  - check for winner
+  - switch turns
+  - play another turn
+  - check for winner
+  - switch turns
+
+- Turn consists of:
+  - request coordinates of an attack from a player
+  - pass coordinates to enemy player
+    - call takeAttack
+    - return result
+  - pass result of attack to original player
+    - update attackResult
+
 #### State
 
 What information do the players have access to?
@@ -216,6 +241,14 @@ What information do the players have access to?
 - their own gameBoard
 - their attacks
   - the result of each of those attacks
+- how many opposing ships are sunk
+-
+
+What should the UI track?
+
+- attackResults
+- own board state, can log/update with opponent attacks/misses
+-
 
 ### Mocking
 

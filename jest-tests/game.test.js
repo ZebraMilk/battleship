@@ -13,6 +13,13 @@ it('Starts a game with two players', () => {
 
 it('Requests an attack coordinate from a player', () => {
   const testGame = game();
+  const one = testGame.playerOne;
+  const two = testGame.playerTwo;
+  one.playerBoard.placeShip(1, 1, 'carrier', 'E');
+  one.playerBoard.placeShip(2, 1, 'battleship', 'E');
+  two.playerBoard.placeShip(1, 1, 'carrier', 'E');
+  two.playerBoard.placeShip(2, 1, 'battleship', 'E');
+  expect(testGame.makeAttack(one, two, 1, 1)).toBe('hit');
   // set up a mock here? for those promise resolutions?
   // what needs mocking?
   // just need to make sure it passes values around appropriately
