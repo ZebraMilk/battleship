@@ -263,6 +263,10 @@ Each time I come up with a different idea about how the eventual app is going to
 
 After some thinking, steps 3 and 4 are a bit misleading. I cannot have a function in the player object to actually make an attack, interact with the enemy board. Those methods have to be called by the game module. So the game module passes methods around.
 
+---
+
+Testing the game scripts, something weird is happening. I make a testGame on lines 26 and 42. I run two tests, and for the second test, trying to place
+
 ### this.hitCount vs hitCount
 
 INTERESTING observation:

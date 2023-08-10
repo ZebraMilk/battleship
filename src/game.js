@@ -1,5 +1,5 @@
 const NewPlayer = require('./player');
-const computerPlayer = require('./computer');
+const NewComputerPlayer = require('./computer');
 
 // This is the 'publicly available' stuff
 // side effects that are observable here are testable
@@ -10,7 +10,7 @@ function Game() {
   }
 
   const playerOne = NewPlayer();
-  const playerTwo = computerPlayer;
+  const playerTwo = NewComputerPlayer();
 
   let currentPlayer = playerOne;
 
@@ -26,7 +26,11 @@ function Game() {
     return { x, y };
   }
 
-  function makeAttack(coords) {}
+  function makeAttack(attacker, target, x, y) {
+    const result = target.takeAttack(x, y);
+    attacker.attackResults[x][y] = result;
+    return result;
+  }
 
   return {
     newGame,
@@ -34,6 +38,7 @@ function Game() {
     playerTwo,
     currentPlayer,
     switchTurns,
+    makeAttack,
   };
 }
 

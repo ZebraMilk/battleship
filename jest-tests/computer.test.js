@@ -1,11 +1,13 @@
-const computer = require('../src/computer');
+const NewComputerPlayer = require('../src/computer');
 
 it('Does not attack a previously attacked square', () => {
+  const computer = NewComputerPlayer();
   computer.updateAttackResults(1, 1, 'hit');
   expect(computer.canAttack(1, 1)).toBe(false);
 });
 
 it('Chooses a coordinate at random between 0 and 9', () => {
+  const computer = NewComputerPlayer();
   expect(computer.randomAttack().x).toBeLessThan(10);
   expect(computer.randomAttack().x).toBeGreaterThanOrEqual(0);
   expect(computer.randomAttack().y).toBeLessThan(10);
@@ -13,6 +15,7 @@ it('Chooses a coordinate at random between 0 and 9', () => {
 });
 
 it('Only makes attack choices that have not been guessed yet', () => {
+  const computer = NewComputerPlayer();
   // How to test this? makeChoice should return x, y coords.
   // Need to check if it's valid?
   // Compare the result against the public attackResults
