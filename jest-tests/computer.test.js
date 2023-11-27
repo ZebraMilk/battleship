@@ -16,11 +16,11 @@ it('Chooses a coordinate at random between 0 and 9', () => {
 
 it('Only makes attack choices that have not been guessed yet', () => {
   const computer = NewComputerPlayer();
-  // How to test this? makeChoice should return x, y coords.
+  // How to test this? makeComputerChoice should return x, y coords.
   // Need to check if it's valid?
   // Compare the result against the public attackResults
   populateResultsExceptOneOne(computer.attackResults);
-  const attempt = computer.makeChoice();
+  const attempt = computer.makeComputerChoice();
   expect(attempt.x).toBe(1);
   expect(attempt.y).toBe(1);
   expect(computer.attackResults[1][1]).toEqual(undefined);

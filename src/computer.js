@@ -21,7 +21,7 @@ function NewComputerPlayer() {
       return { x, y, valid: false };
     }
   }
-  function makeChoice() {
+  function makeComputerChoice() {
     const attempt = this.randomAttack();
     if (attempt.valid === true) {
       return { x: attempt[x], y: attempt[y] };
@@ -52,7 +52,7 @@ function NewComputerPlayer() {
   return {
     // add all properties of a "normal" player
     ...newPlayer(),
-    makeChoice,
+    makeComputerChoice,
     randomAttack,
   };
 }

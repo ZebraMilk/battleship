@@ -22,10 +22,6 @@ function Game() {
     }
   }
 
-  function getPlayerChoice(player) {
-    return { x, y };
-  }
-
   function makeAttack(attacker, target, x, y) {
     const result = target.takeAttack(x, y);
     attacker.attackResults[x][y] = result;

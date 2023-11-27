@@ -331,3 +331,20 @@ How many ways of casting a value to a number are there?
 - -
 - toNumber
 - -
+
+---
+
+## Revisiting
+
+11/26/2023
+
+After looking over the code and tests, I found a few areas where I was bundling logic together that should have been elsewhere.
+
+The `game.js` module should not rely on UI things, it should be passed the choice from either the AI player or the UI module. If a human player clicks something, that passes the coords to the Game module, where it does things.
+
+This keeps the makeAttack function from being super tangled.
+
+So if I need to test something in Game, I should first test the components.
+
+If I need Game.playerChoice to return an object containing coordinates, I should first test for the function returning the coords, then have it go through an internal function and still return coords
+then test if it correctly alters the coord object if it was a hit (set up the board like usual). So like, set up a fake board and test that it does proper things to the state of players and boards
