@@ -12,7 +12,7 @@ The primary goal with this project is to start with Test-Driven Development from
 
 Interesting observation:
 
-when accessing a property on an object,
+When accessing a property on an object,
 
 Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
 
@@ -35,6 +35,10 @@ This should be set up on Github Pages, but the code will be accessible from the 
 
 ## Usage
 
+- How a user should download/run this code.
+- If I am uploading to GH, do I need to upload just the packaged code or the entire repo?
+- Instructions on how to implement on own server.
+
 To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
 
     ```md
@@ -42,6 +46,8 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
     ```
 
 ## Tests
+
+No user tests, but plenty of developer tests
 
 ## Credits
 
@@ -336,7 +342,7 @@ How many ways of casting a value to a number are there?
 
 ## Revisiting
 
-11/26/2023
+### 11/26/2023
 
 After looking over the code and tests, I found a few areas where I was bundling logic together that should have been elsewhere.
 
@@ -348,3 +354,15 @@ So if I need to test something in Game, I should first test the components.
 
 If I need Game.playerChoice to return an object containing coordinates, I should first test for the function returning the coords, then have it go through an internal function and still return coords
 then test if it correctly alters the coord object if it was a hit (set up the board like usual). So like, set up a fake board and test that it does proper things to the state of players and boards
+
+### 04/24/2024
+
+This is just objects sending and receiving messages, and those objects are sorted into different files for testing purposes.
+
+So the specs for the project are:
+
+- Ship module
+- Board module
+- Player module
+- Game module
+- UI stuff

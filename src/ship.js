@@ -1,6 +1,6 @@
 function NewShip(shipLength, shipName) {
   const name = shipName;
-  const length = shipLength > 0 ? shipLength : _errorHandler(1);
+  const length = shipLength > 0 ? shipLength : _shipErrorHandler(1);
 
   let hitCount = 0;
   let isSunk = false;
@@ -22,7 +22,7 @@ function NewShip(shipLength, shipName) {
     return this.hitCount;
   }
 
-  function _errorHandler(key) {
+  function _shipErrorHandler(key) {
     switch (key) {
       case 1:
         throw new Error('Invalid ship length');
