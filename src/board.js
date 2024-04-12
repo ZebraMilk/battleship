@@ -38,21 +38,21 @@ function GameBoard() {
 
   function placeShip(xcoord, ycoord, shipName, orient) {
     if (shipTypes[`${shipName}`] === undefined) {
-      return _errorHandler('invalidShip');
+      return _boardErrorHandler('invalidShip');
     }
     // get the actual ship using shipType
     const currentShip = shipTypes[`${shipName}`];
 
     // check the potential placement of ship to see if any squares are already occupied
     if (_checkShipOverlap(xcoord, ycoord, shipName, orient) === true) {
-      _errorHandler('spaceOccupied');
+      _boardErrorHandler('spaceOccupied');
     }
 
     switch (orient) {
       case 'N':
         // check if the ship would go off the board
         if (ycoord + currentShip.length > BOARDSIZE) {
-          return _errorHandler('invalidStartingSquare');
+          return _boardErrorHandler('invalidStartingSquare');
         }
         // make the ship lie N from origin
         for (let i = 0; i < currentShip.length; i++) {
@@ -63,7 +63,7 @@ function GameBoard() {
 
       case 'S':
         if (ycoord - currentShip.length < 0) {
-          return _errorHandler('invalidStartingSquare');
+          return _boardErrorHandler('invalidStartingSquare');
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord][ycoord - i].hasShip = true;
@@ -73,7 +73,7 @@ function GameBoard() {
 
       case 'E':
         if (xcoord + currentShip.length > BOARDSIZE) {
-          return _errorHandler('invalidStartingSquare');
+          return _boardErrorHandler('invalidStartingSquare');
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord + i][ycoord].hasShip = true;
@@ -83,7 +83,7 @@ function GameBoard() {
 
       case 'W':
         if (xcoord + currentShip.length < 0) {
-          return _errorHandler('invalidStartingSquare');
+          return _boardErrorHandler('invalidStartingSquare');
         }
         for (let i = 0; i < currentShip.length; i++) {
           board[xcoord - i][ycoord].hasShip = true;
@@ -92,7 +92,7 @@ function GameBoard() {
         break;
 
       default:
-        return _errorHandler();
+        return _boardErrorHandler();
     }
 
     placedShips.push(currentShip);
@@ -183,7 +183,7 @@ function GameBoard() {
   };
 }
 
-function _errorHandler(key) {
+function _boardErrorHandler(key) {
   switch (key) {
     case 'invalidShip':
       throw new Error('Not a valid ship type');
